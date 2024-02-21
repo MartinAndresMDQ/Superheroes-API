@@ -1,13 +1,17 @@
 package com.mindata.challenge.w2m.superheroes;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-@SpringBootApplication
-@EntityScan("com.mindata.challenge.w2m.superheroes.model")
-@EnableJpaRepositories(basePackages = {"com.mindata.challenge.w2m.superheroes.repository"})
+@Configuration
+//@ServletComponentScan
+@ComponentScan(basePackages = {"com.mindata.challenge.w2m.superheroes.repository"})
+@AutoConfigurationPackage
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class SuperheroesApiApplication {
 
 	public static void main(String[] args) {
