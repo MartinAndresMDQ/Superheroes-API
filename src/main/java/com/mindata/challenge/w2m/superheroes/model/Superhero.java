@@ -20,7 +20,7 @@ public class Superhero extends Person {
 	// Otros atributos específicos de Superhero
 
 	@ManyToMany
-	@JoinTable(name = "superhero_powers", joinColumns = @JoinColumn(name = "superhero_id"), inverseJoinColumns = @JoinColumn(name = "power_id"))
+	@JoinTable(name = "superhero_powers",schema = "superheroes_schema", joinColumns = @JoinColumn(name = "superhero_id"), inverseJoinColumns = @JoinColumn(name = "power_id"))
 	private Set<Power> powers = new HashSet<>();
 
 	public Superhero(String name_super, Set<Power> powers) {

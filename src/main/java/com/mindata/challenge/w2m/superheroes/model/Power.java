@@ -3,6 +3,8 @@ package com.mindata.challenge.w2m.superheroes.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "powers", schema = "superheroes_schema")
@@ -22,6 +25,8 @@ public class Power {
     private String name;
     
     @ManyToMany(mappedBy = "powers")
+    @Transient 
+    @JsonIgnore
     private Set<Superhero> superheroes = new HashSet<>();
 
     
