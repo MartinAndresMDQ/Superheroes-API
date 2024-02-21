@@ -3,12 +3,12 @@ package com.mindata.challenge.w2m.superheroes.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "superheroes", schema = "superheroes_schema")
@@ -27,6 +27,10 @@ public class Superhero extends Person {
 		super();
 		this.name_super = name_super;
 		this.powers = powers;
+	}
+	public Superhero(String name, String name_super) {
+		super(name);
+		this.name_super = name_super;
 	}
 
 	public Superhero(Long id, String name, String name_super, Set<Power> powers) {

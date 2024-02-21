@@ -1,7 +1,9 @@
 com\mindata\challenge\w2m\superheroes\repository\SuperheroRepository.class
-com\mindata\challenge\w2m\superheroes\ServletInitializer.class
 com\mindata\challenge\w2m\superheroes\model\Power.class
+com\mindata\challenge\w2m\superheroes\controller\SuperheroController.class
 com\mindata\challenge\w2m\superheroes\SuperheroesApiApplication.class
+com\mindata\challenge\w2m\superheroes\config\JpaConfig.class
+com\mindata\challenge\w2m\superheroes\config\MvcConfig.class
 com\mindata\challenge\w2m\superheroes\model\Superhero.class
 com\mindata\challenge\w2m\superheroes\service\SuperheroService.class
 com\mindata\challenge\w2m\superheroes\model\Person.class

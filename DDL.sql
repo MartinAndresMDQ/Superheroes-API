@@ -1,8 +1,9 @@
 USE SUPERHEROES_SCHEMA;
-DROP TABLE superhero_powers;
-DROP TABLE powers;
-DROP TABLE superheroes;
-DROP TABLE persons;
+DROP table if exists superhero_powers;
+DROP table if exists powers;
+DROP table if exists superheroes;
+DROP table if exists persons;
+DROP SCHEMA if exists SUPERHEROES_SCHEMA;
 
 
 -- Crear el esquema
