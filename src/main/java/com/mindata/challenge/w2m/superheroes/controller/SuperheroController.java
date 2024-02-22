@@ -1,19 +1,12 @@
 package com.mindata.challenge.w2m.superheroes.controller;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.mindata.challenge.w2m.superheroes.annotation.ExecutionTime;
 import com.mindata.challenge.w2m.superheroes.model.Superhero;
@@ -21,46 +14,52 @@ import com.mindata.challenge.w2m.superheroes.service.SuperheroService;
 
 @RestController
 @RequestMapping("/api/superheroes")
+@Api(value = "ControladorSuperheroes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SuperheroController {
 
-	@Autowired
-	private SuperheroService superheroService;
+    @Autowired
+    private SuperheroService superheroService;
 
     @ExecutionTime
-	@GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ApiOperation(value = "Obtener todos los superhéroes", notes = "Recupera todos los superhéroes de la base de datos")
+    @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Superhero> getAllSuperheroes() {
-		List<Superhero> lista = superheroService.getAllSuperheroes();
-		return lista;
-	}
+        return superheroService.getAllSuperheroes();
+    }
 
     @ExecutionTime
-	@GetMapping("/{id}")
-	public Superhero getSuperheroById(@PathVariable Long id) {
-		Optional<Superhero> opt = superheroService.getSuperheroById(id);
-		return opt.orElseThrow(() -> new RuntimeException("Superhero not found with id: " + id));
-	}
+    @ApiOperation(value = "Obtener superhéroe por ID", notes = "Recupera un superhéroe por su ID")
+    @GetMapping("/{id}")
+    public Superhero getSuperheroById(@PathVariable Long id) {
+        Optional<Superhero> opt = superheroService.getSuperheroById(id);
+        return opt.orElseThrow(() -> new RuntimeException("Superhéroe no encontrado con el ID: " + id));
+    }
 
     @ExecutionTime
-	@GetMapping("/search")
-	public List<Superhero> getSuperheroesByName(@RequestParam String name) {
-		return superheroService.getSuperheroesByName(name);
-	}
+    @ApiOperation(value = "Buscar superhéroes por nombre", notes = "Busca superhéroes por su nombre")
+    @GetMapping("/buscar")
+    public List<Superhero> getSuperheroesByName(@RequestParam String nombre) {
+        return superheroService.getSuperheroesByName(nombre);
+    }
 
     @ExecutionTime
-	@PostMapping
-	public Superhero createSuperhero(@RequestBody Superhero superhero) {
-		return superheroService.createSuperhero(superhero);
-	}
+    @ApiOperation(value = "Crear un nuevo superhéroe", notes = "Crea un nuevo superhéroe")
+    @PostMapping
+    public Superhero createSuperhero(@RequestBody Superhero superhéroe) {
+        return superheroService.createSuperhero(superhéroe);
+    }
 
     @ExecutionTime
-	@PutMapping("/{id}")
-	public Superhero updateSuperhero(@PathVariable Long id, @RequestBody Superhero superhero) {
-		return superheroService.updateSuperhero(id, superhero);
-	}
+    @ApiOperation(value = "Actualizar un superhéroe", notes = "Actualiza un superhéroe existente por su ID")
+    @PutMapping("/{id}")
+    public Superhero updateSuperhero(@PathVariable Long id, @RequestBody Superhero superhéroe) {
+        return superheroService.updateSuperhero(id, superhéroe);
+    }
 
     @ExecutionTime
-	@DeleteMapping("/{id}")
-	public void deleteSuperhero(@PathVariable Long id) {
-		superheroService.deleteSuperhero(id);
-	}
+    @ApiOperation(value = "Eliminar un superhéroe", notes = "Elimina un superhéroe por su ID")
+    @DeleteMapping("/{id}")
+    public void deleteSuperhero(@PathVariable Long id) {
+        superheroService.deleteSuperhero(id);
+    }
 }
