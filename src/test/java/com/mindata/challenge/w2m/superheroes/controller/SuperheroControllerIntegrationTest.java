@@ -40,7 +40,7 @@ class SuperheroControllerIntegrationTest {
 	void testGetAllSuperheroes() throws Exception {
 		Mockito.when(superheroService.getAllSuperheroes()).thenReturn(Collections.emptyList());
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/superheroes").contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/superheroes/todos").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$").isEmpty());
 
