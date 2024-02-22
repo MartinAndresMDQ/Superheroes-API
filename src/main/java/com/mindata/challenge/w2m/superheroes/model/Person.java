@@ -1,6 +1,5 @@
 package com.mindata.challenge.w2m.superheroes.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,11 +13,12 @@ import jakarta.persistence.Table;
 @Table(name = "persons", schema = "superheroes_schema")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-    @Column(name="name")
+	@Column(name = "name")
 	private String name;
 
 	public Person() {

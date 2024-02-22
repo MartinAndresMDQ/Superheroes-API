@@ -17,29 +17,28 @@ import jakarta.persistence.Transient;
 @Entity
 @Table(name = "powers", schema = "superheroes_schema")
 public class Power {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column(name="name")
-    private String name;
-    
-    @ManyToMany(mappedBy = "powers")
-    @Transient 
-    @JsonIgnore
-    private Set<Superhero> superheroes = new HashSet<>();
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
+	private Long id;
 
-    
+	@Column(name = "name")
+	private String name;
+
+	@ManyToMany(mappedBy = "powers")
+	@Transient
+	@JsonIgnore
+	private Set<Superhero> superheroes = new HashSet<>();
+
 	public Power() {
 	}
-	
 
 	public Power(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
-	
 
 	public Power(Long id, String name, Set<Superhero> superheroes) {
 		super();
@@ -47,7 +46,6 @@ public class Power {
 		this.name = name;
 		this.superheroes = superheroes;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -72,7 +70,5 @@ public class Power {
 	public void setSuperheroes(Set<Superhero> superheroes) {
 		this.superheroes = superheroes;
 	}
-    
-    // Constructores, getters y setters
-    
+
 }

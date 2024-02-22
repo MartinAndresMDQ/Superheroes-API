@@ -14,13 +14,11 @@ import jakarta.persistence.Table;
 @Table(name = "superheroes", schema = "superheroes_schema")
 public class Superhero extends Person {
 
-    @Column(name="name_super")
+	@Column(name = "name_super")
 	private String name_super;
 
-	// Otros atributos específicos de Superhero
-
 	@ManyToMany
-	@JoinTable(name = "superhero_powers",schema = "superheroes_schema", joinColumns = @JoinColumn(name = "superhero_id"), inverseJoinColumns = @JoinColumn(name = "power_id"))
+	@JoinTable(name = "superhero_powers", schema = "superheroes_schema", joinColumns = @JoinColumn(name = "superhero_id"), inverseJoinColumns = @JoinColumn(name = "power_id"))
 	private Set<Power> powers = new HashSet<>();
 
 	public Superhero(String name_super, Set<Power> powers) {
@@ -28,6 +26,7 @@ public class Superhero extends Person {
 		this.name_super = name_super;
 		this.powers = powers;
 	}
+
 	public Superhero(String name, String name_super) {
 		super(name);
 		this.name_super = name_super;

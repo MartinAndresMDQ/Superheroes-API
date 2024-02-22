@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mindata.challenge.w2m.superheroes.annotation.ExecutionTime;
 import com.mindata.challenge.w2m.superheroes.model.Superhero;
 import com.mindata.challenge.w2m.superheroes.service.SuperheroService;
 
@@ -25,33 +26,39 @@ public class SuperheroController {
 	@Autowired
 	private SuperheroService superheroService;
 
+    @ExecutionTime
 	@GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Superhero> getAllSuperheroes() {
 		List<Superhero> lista = superheroService.getAllSuperheroes();
 		return lista;
 	}
 
+    @ExecutionTime
 	@GetMapping("/{id}")
 	public Superhero getSuperheroById(@PathVariable Long id) {
 		Optional<Superhero> opt = superheroService.getSuperheroById(id);
 		return opt.orElseThrow(() -> new RuntimeException("Superhero not found with id: " + id));
 	}
 
+    @ExecutionTime
 	@GetMapping("/search")
 	public List<Superhero> getSuperheroesByName(@RequestParam String name) {
 		return superheroService.getSuperheroesByName(name);
 	}
 
+    @ExecutionTime
 	@PostMapping
 	public Superhero createSuperhero(@RequestBody Superhero superhero) {
 		return superheroService.createSuperhero(superhero);
 	}
 
+    @ExecutionTime
 	@PutMapping("/{id}")
 	public Superhero updateSuperhero(@PathVariable Long id, @RequestBody Superhero superhero) {
 		return superheroService.updateSuperhero(id, superhero);
 	}
 
+    @ExecutionTime
 	@DeleteMapping("/{id}")
 	public void deleteSuperhero(@PathVariable Long id) {
 		superheroService.deleteSuperhero(id);
