@@ -1,6 +1,7 @@
 package com.mindata.challenge.w2m.superheroes.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -10,9 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.mindata.challenge.w2m.superheroes.model.Superhero;
@@ -27,6 +30,11 @@ class SuperheroServiceImplTest {
 	@InjectMocks
 	private SuperheroServiceImpl superheroService;
 
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+    
 	@Test
 	void testGetAllSuperheroes() {
 		// Arrange

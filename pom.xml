@@ -111,6 +111,18 @@
 				<configuration>
 				</configuration>
 			</plugin>
+			
+	    	<!-- 
+			<plugin>
+	            <groupId>org.flywaydb</groupId>
+	            <artifactId>flyway-maven-plugin</artifactId>
+	            <configuration>
+		          <url>${spring.datasource.url}</url>
+		          <user>${spring.datasource.username}</user>
+		          <password>${spring.datasource.password}</password>
+	            </configuration>
+	        </plugin>
+	        -->
 		</plugins>
 	</build>
 

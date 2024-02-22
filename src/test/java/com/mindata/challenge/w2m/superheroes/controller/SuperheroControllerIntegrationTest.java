@@ -25,7 +25,7 @@ import com.mindata.challenge.w2m.superheroes.service.SuperheroService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class SuperheroControllerIntegrationTest {
+class SuperheroControllerIntegrationTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -37,7 +37,7 @@ public class SuperheroControllerIntegrationTest {
 	private ObjectMapper objectMapper;
 
 	@Test
-	public void testGetAllSuperheroes() throws Exception {
+	void testGetAllSuperheroes() throws Exception {
 		Mockito.when(superheroService.getAllSuperheroes()).thenReturn(Collections.emptyList());
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/superheroes").contentType(MediaType.APPLICATION_JSON))
@@ -48,7 +48,7 @@ public class SuperheroControllerIntegrationTest {
 	}
 
 	@Test
-	public void testGetSuperheroById() throws Exception {
+	void testGetSuperheroById() throws Exception {
 		Long id = 1L;
 		Superhero spiderman = new Superhero(id, "Peter Parker", "Spiderman", null);
 		Mockito.when(superheroService.getSuperheroById(id)).thenReturn(Optional.of(spiderman));
@@ -62,13 +62,13 @@ public class SuperheroControllerIntegrationTest {
 	}
 
 	@Test
-	public void testGetSuperheroesByName() throws Exception {
+	void testGetSuperheroesByName() throws Exception {
 		String name = "Spider";
 		Superhero spiderman = new Superhero(1L, "Peter Parker", "Spiderman", null);
 		List<Superhero> spiderHeroes = Collections.singletonList(spiderman);
 		Mockito.when(superheroService.getSuperheroesByName(name)).thenReturn(spiderHeroes);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/superheroes/search").param("name", name)
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/superheroes/buscar").param("nombre", name)
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(spiderman.getName()));
 
@@ -76,11 +76,11 @@ public class SuperheroControllerIntegrationTest {
 	}
 
 	@Test
-	public void testCreateSuperhero() throws Exception {
+	void testCreateSuperhero() throws Exception {
 		Superhero spiderman = new Superhero(1L, "Peter Parker", "Spiderman", null);
 		Mockito.when(superheroService.createSuperhero(any(Superhero.class))).thenReturn(spiderman);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/superheroes")
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/superheroes/crear")
 				.content(objectMapper.writeValueAsString(spiderman)).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(spiderman.getId()))
@@ -90,7 +90,7 @@ public class SuperheroControllerIntegrationTest {
 	}
 
 	@Test
-	public void testUpdateSuperhero() throws Exception {
+	void testUpdateSuperhero() throws Exception {
 		Long id = 1L;
 		Superhero updatedSpiderman = new Superhero(id, "Peter Parker", "Spiderman", null);
 		Mockito.when(superheroService.updateSuperhero(eq(id), any(Superhero.class))).thenReturn(updatedSpiderman);
@@ -105,7 +105,7 @@ public class SuperheroControllerIntegrationTest {
 	}
 
 	@Test
-	public void testDeleteSuperhero() throws Exception {
+	void testDeleteSuperhero() throws Exception {
 		Long id = 1L;
 
 		mockMvc.perform(

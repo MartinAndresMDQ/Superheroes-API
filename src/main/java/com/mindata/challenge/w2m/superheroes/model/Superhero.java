@@ -5,6 +5,7 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -17,7 +18,7 @@ public class Superhero extends Person {
 	@Column(name = "name_super")
 	private String name_super;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER )
 	@JoinTable(name = "superhero_powers", schema = "superheroes_schema", joinColumns = @JoinColumn(name = "superhero_id"), inverseJoinColumns = @JoinColumn(name = "power_id"))
 	private Set<Power> powers = new HashSet<>();
 

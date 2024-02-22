@@ -4,59 +4,77 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.mindata.challenge.w2m.superheroes.model.Superhero;
 
-@DataJpaTest
-public class SuperheroRepositoryIntegrationTest {
+@SpringBootTest
+class SuperheroRepositoryIntegrationTest {
 
 	@Autowired
 	private SuperheroRepository superheroRepository;
 
 	@Test
-	public void testFindByKeywordInNameIgnoreCase() {
+	void testFindByKeywordInNameIgnoreCase() {
 		// Arrange
 		Superhero spiderman = new Superhero("Peter Parker", "Spiderman");
 		superheroRepository.save(spiderman);
 
 		// Act
-		List<Superhero> foundSuperheroes = superheroRepository.findByKeywordInNameIgnoreCase("man");
+		List<Superhero> foundSuperheroes = superheroRepository.findByKeywordInNameIgnoreCase("derman");
 
 		// Assert
 		assertTrue(foundSuperheroes.size() > 0);
-		assertTrue(foundSuperheroes.contains(spiderman));
+		boolean supermanFound = false;
+		for (Superhero superhero : foundSuperheroes) {
+			if (superhero.getId().equals(spiderman.getId()) && superhero.getName().equals(spiderman.getName())
+					&& superhero.getName_super().equals(spiderman.getName_super())) {
+				supermanFound = true;
+				break;
+			}
+		}
+
+		assertTrue(supermanFound);
 	}
 
 	@Test
-	public void testFindByNameContaining() {
+	void testFindByNameContaining() {
 		// Arrange
 		Superhero superman = new Superhero("Clark Kent", "Superman");
-		superheroRepository.save(superman);
+		superman = superheroRepository.save(superman);
 
 		// Act
-		List<Superhero> foundSuperheroes = superheroRepository.findByNameContaining("man");
+		List<Superhero> foundSuperheroes = superheroRepository.findByNameContaining("ent");
 
 		// Assert
 		assertTrue(foundSuperheroes.size() > 0);
-		assertTrue(foundSuperheroes.contains(superman));
+		boolean supermanFound = false;
+		for (Superhero superhero : foundSuperheroes) {
+			if (superhero.getId().equals(superman.getId()) && superhero.getName().equals(superman.getName())
+					&& superhero.getName_super().equals(superman.getName_super())) {
+				supermanFound = true;
+				break;
+			}
+		}
+
+		assertTrue(supermanFound);
 	}
 
 	@Test
-	public void testFindById() {
+	void testFindById() {
 		// Arrange
 		Superhero spiderman = new Superhero("Peter Parker", "Spiderman");
 		Superhero savedSuperhero = superheroRepository.save(spiderman);
 
 		// Act
-		Optional<Superhero> foundSuperhero = superheroRepository.findById(savedSuperhero.getId());
+		Superhero foundSuperhero = superheroRepository.findById(savedSuperhero.getId()).orElse(null);
 
 		// Assert
-		assertTrue(foundSuperhero.isPresent());
-		assertEquals(savedSuperhero, foundSuperhero.get());
+		assertEquals(savedSuperhero.getId(), foundSuperhero.getId());
+		assertEquals(savedSuperhero.getName(), foundSuperhero.getName());
+		assertEquals(savedSuperhero.getName_super(), foundSuperhero.getName_super());
 	}
 }
