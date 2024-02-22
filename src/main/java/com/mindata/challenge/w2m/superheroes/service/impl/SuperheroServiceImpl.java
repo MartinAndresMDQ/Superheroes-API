@@ -28,7 +28,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 
 	@Override
 	public List<Superhero> getSuperheroesByName(String name) {
-		return superheroRepository.findByNameContaining(name);
+		return superheroRepository.findByKeywordInNameIgnoreCase(name.toLowerCase());
 	}
 
 	@Override
