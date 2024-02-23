@@ -63,6 +63,21 @@ Esto abrirá la interfaz de usuario de Swagger, donde podrás explorar y probar 
 
 Puedes utilizar herramientas como cURL, Postman o Swagger UI para interactuar con estos endpoints y probar la funcionalidad de la API.
 
+#### Objeto Superheroe
+    ```bash
+    
+    {
+        "name": string, //Nombre real de superheroe
+        "name_super": string, //Nombre de superheroe
+        //poderes
+        "powers": [
+            {
+                "name": string //nombre de poder
+            }
+        ]
+    }
+    ```
+    
 #### Seguridad
 
 La API utiliza Spring Security para proporcionar una capa de seguridad. Actualmente se encuentra deshabilitado, aun que se ha configurado una autenticación básica para los usuarios "user" y "admin", con la contraseña "password". Puedes acceder a los endpoints protegidos utilizando estas credenciales.
