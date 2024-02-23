@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -34,17 +35,20 @@ public class SuperheroServiceImpl implements SuperheroService {
 	}
 
 	@Override
+    @CacheEvict(value = "superheroes", allEntries = true)
 	public Superhero createSuperhero(Superhero superhero) {
 		return superheroRepository.save(superhero);
 	}
 
 	@Override
+    @CacheEvict(value = "superheroes", allEntries = true)
 	public Superhero updateSuperhero(Long id, Superhero superhero) {
 		superhero.setId(id); // Asegura que el ID del superhéroe sea el mismo que se pasa
 		return superheroRepository.save(superhero);
 	}
 
 	@Override
+    @CacheEvict(value = "superheroes", allEntries = true)
 	public void deleteSuperhero(Long id) {
 		superheroRepository.deleteById(id);
 	}
