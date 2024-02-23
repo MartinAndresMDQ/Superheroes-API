@@ -46,14 +46,16 @@ public class SuperheroServiceImpl implements SuperheroService {
 	@CacheEvict(value = "superheroes", allEntries = true)
 	public Superhero createSuperhero(Superhero superhero) {
 
-		Iterator<Power> aGuardar = superhero.getPowers().iterator();
-		Set<Power> powers = new HashSet<>();
-		while (aGuardar.hasNext()) {
-			Power elemento = aGuardar.next();
-			elemento = powerRepository.save(elemento);
-			powers.add(elemento);
+		if(superhero.getPowers()!=null) {
+			Iterator<Power> aGuardar = superhero.getPowers().iterator();
+			Set<Power> powers = new HashSet<>();
+			while (aGuardar.hasNext()) {
+				Power elemento = aGuardar.next();
+				elemento = powerRepository.save(elemento);
+				powers.add(elemento);
+			}
+			superhero.setPowers(powers);			
 		}
-		superhero.setPowers(powers);
 		return superheroRepository.save(superhero);
 	}
 
