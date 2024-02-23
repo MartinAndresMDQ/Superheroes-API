@@ -27,71 +27,72 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/superheroes")
-@Tag(name  = "ControladorSuperheroes", description = "${application.json.value}")
+//@PropertySource("mensajes.properties")
+@Tag(name  = "ControladorSuperheroes", description = MediaType.APPLICATION_JSON_VALUE)
 public class SuperheroController {
 
-    @Autowired
-    private SuperheroService superheroService;
+	@Autowired
+	private SuperheroService superheroService;
 
-    @ExecutionTime
-    @Operation(summary = "${operation.get_all_superheroes}")
+	@ExecutionTime
+	@Operation(summary = "Obtener todos los superhéroes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "${response.get_all_superheroes}")
+            @ApiResponse(responseCode = "200", description = "Recupera todos los superhéroes de la base de datos"),
     })
-    @GetMapping(value = "/todos", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public List<Superhero> getAllSuperheroes() {
-        return superheroService.getAllSuperheroes();
-    }
+	@GetMapping(value = "/todos", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<Superhero> getAllSuperheroes() {
+		return superheroService.getAllSuperheroes();
+	}
 
-    @ExecutionTime
-    @Operation(summary = "${operation.get_superhero_by_id}")
+	@ExecutionTime
+	@Operation(summary = "Obtener superhéroe por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "${response.get_superhero_by_id}")
+            @ApiResponse(responseCode = "200", description = "Recupera un superhéroe por su ID"),
     })
-    @GetMapping(value = "/traer/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Superhero getSuperheroById(@PathVariable Long id) {
-        Optional<Superhero> opt = superheroService.getSuperheroById(id);
-        return opt.orElseThrow(() -> new RuntimeException("${exception.superhero_not_found} " + id));
-    }
+	@GetMapping(value = "/traer/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Superhero getSuperheroById(@PathVariable Long id) {
+		Optional<Superhero> opt = superheroService.getSuperheroById(id);
+		return opt.orElseThrow(() -> new RuntimeException("Superhéroe no encontrado con el ID: " + id));
+	}
 
-    @ExecutionTime
-    @Operation(summary = "${operation.get_superheroes_by_name}")
+	@ExecutionTime
+	@Operation(summary = "Buscar superhéroes por nombre")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "${response.get_superheroes_by_name}")
+            @ApiResponse(responseCode = "200", description = "Busca superhéroes por su nombre"),
     })
-    @GetMapping(value = "/buscar", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public List<Superhero> getSuperheroesByName(@RequestParam String nombre) {
-        return superheroService.getSuperheroesByName(nombre);
-    }
+	@GetMapping(value = "/buscar", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<Superhero> getSuperheroesByName(@RequestParam String nombre) {
+		return superheroService.getSuperheroesByName(nombre);
+	}
 
-    @ExecutionTime
-    @Operation(summary = "${operation.create_superhero}")
+	@ExecutionTime
+	@Operation(summary = "Crear un nuevo superhéroe")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "${response.create_superhero}")
+            @ApiResponse(responseCode = "200", description = "Crea un nuevo superhéroe"),
     })
-    @PostMapping(value = "/crear", produces = { MediaType.APPLICATION_JSON_VALUE }, consumes = {
-            MediaType.APPLICATION_JSON_VALUE })
-    public Superhero createSuperhero(@RequestBody Superhero superheroe) {
-        return superheroService.createSuperhero(superheroe);
-    }
+	@PostMapping(value = "/crear", produces = { MediaType.APPLICATION_JSON_VALUE }, consumes = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public Superhero createSuperhero(@RequestBody Superhero superhéroe) {
+		return superheroService.createSuperhero(superhéroe);
+	}
 
-    @ExecutionTime
-    @Operation(summary = "${operation.update_superhero}")
+	@ExecutionTime
+	@Operation(summary = "Actualizar un superhéroe")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "${response.update_superhero}")
+            @ApiResponse(responseCode = "200", description = "Actualiza un superhéroe existente por su ID"),
     })
-    @PutMapping("/actualizar/{id}")
-    public Superhero updateSuperhero(@PathVariable Long id, @RequestBody Superhero superheroe) {
-        return superheroService.updateSuperhero(id, superheroe);
-    }
+	@PutMapping("/actualizar/{id}")
+	public Superhero updateSuperhero(@PathVariable Long id, @RequestBody Superhero superhéroe) {
+		return superheroService.updateSuperhero(id, superhéroe);
+	}
 
-    @ExecutionTime
-    @Operation(summary = "${operation.delete_superhero}")
+	@ExecutionTime
+	@Operation(summary = "Eliminar un superhéroe")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "${response.delete_superhero}")
+            @ApiResponse(responseCode = "200", description = "Elimina un superhéroe por su ID"),
     })
-    @DeleteMapping("/borrar/{id}")
-    public void deleteSuperhero(@PathVariable Long id) {
-        superheroService.deleteSuperhero(id);
-    }
+	@DeleteMapping("/borrar/{id}")
+	public void deleteSuperhero(@PathVariable Long id) {
+		superheroService.deleteSuperhero(id);
+	}
 }
