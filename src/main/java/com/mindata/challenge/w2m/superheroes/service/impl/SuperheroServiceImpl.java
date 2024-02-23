@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -45,36 +46,29 @@ public class SuperheroServiceImpl implements SuperheroService {
 	@Override
 	@CacheEvict(value = "superheroes", allEntries = true)
 	public Superhero createSuperhero(Superhero superhero) {
-
-		if(superhero.getPowers()!=null) {
-			Iterator<Power> aGuardar = superhero.getPowers().iterator();
-			Set<Power> powers = new HashSet<>();
-			while (aGuardar.hasNext()) {
-				Power elemento = aGuardar.next();
-				elemento = powerRepository.save(elemento);
-				powers.add(elemento);
-			}
-			superhero.setPowers(powers);			
+		if(superhero.getPowers() != null) {
+			Set<Power> powers = superhero.getPowers().stream()
+					.map(powerRepository::save)
+					.collect(Collectors.toSet());
+			superhero.setPowers(powers);
 		}
 		return superheroRepository.save(superhero);
 	}
+
 
 	@Override
 	@CacheEvict(value = "superheroes", allEntries = true)
 	public Superhero updateSuperhero(Long id, Superhero superhero) {
 		superhero.setId(id); // Asegura que el ID del superhéroe sea el mismo que se pasa
-		if(superhero.getPowers()!=null) {
-			Iterator<Power> aGuardar = superhero.getPowers().iterator();
-			Set<Power> powers = new HashSet<>();
-			while (aGuardar.hasNext()) {
-				Power elemento = aGuardar.next();
-				elemento = powerRepository.save(elemento);
-				powers.add(elemento);
-			}
-			superhero.setPowers(powers);			
+		if(superhero.getPowers() != null) {
+			Set<Power> powers = superhero.getPowers().stream()
+					.map(powerRepository::save)
+					.collect(Collectors.toSet());
+			superhero.setPowers(powers);
 		}
 		return superheroRepository.save(superhero);
 	}
+
 
 	@Override
 	@CacheEvict(value = "superheroes", allEntries = true)
