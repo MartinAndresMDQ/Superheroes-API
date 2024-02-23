@@ -34,19 +34,6 @@ public class Power {
 	public Power() {
 	}
 
-	public Power(Long id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
-
-	public Power(Long id, String name, Set<Superhero> superheroes) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.superheroes = superheroes;
-	}
-
 	public Long getId() {
 		return id;
 	}

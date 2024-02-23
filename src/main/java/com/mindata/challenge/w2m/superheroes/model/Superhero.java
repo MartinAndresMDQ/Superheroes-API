@@ -22,16 +22,6 @@ public class Superhero extends Person {
 	@JoinTable(name = "superhero_powers", schema = "superheroes_schema", joinColumns = @JoinColumn(name = "superhero_id"), inverseJoinColumns = @JoinColumn(name = "power_id"))
 	private Set<Power> powers = new HashSet<>();
 
-	public Superhero(String name_super, Set<Power> powers) {
-		super();
-		this.name_super = name_super;
-		this.powers = powers;
-	}
-
-	public Superhero(String name, String name_super) {
-		super(name);
-		this.name_super = name_super;
-	}
 
 	public Superhero(Long id, String name, String name_super, Set<Power> powers) {
 		super(id, name);

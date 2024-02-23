@@ -26,7 +26,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@PropertySource("mensajes.properties")
 @RequestMapping("/api/superheroes")
 @Tag(name  = "ControladorSuperheroes", description = "${application.json.value}")
 public class SuperheroController {
