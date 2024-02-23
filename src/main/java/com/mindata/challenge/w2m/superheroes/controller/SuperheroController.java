@@ -47,7 +47,7 @@ public class SuperheroController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Recupera un superhéroe por su ID"),
     })
-	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@GetMapping(value = "/traer/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Superhero getSuperheroById(@PathVariable Long id) {
 		Optional<Superhero> opt = superheroService.getSuperheroById(id);
 		return opt.orElseThrow(() -> new RuntimeException("Superhéroe no encontrado con el ID: " + id));
@@ -79,7 +79,7 @@ public class SuperheroController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Actualiza un superhéroe existente por su ID"),
     })
-	@PutMapping("/{id}")
+	@PutMapping("/actualizar/{id}")
 	public Superhero updateSuperhero(@PathVariable Long id, @RequestBody Superhero superhéroe) {
 		return superheroService.updateSuperhero(id, superhéroe);
 	}
@@ -89,7 +89,7 @@ public class SuperheroController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Elimina un superhéroe por su ID"),
     })
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/borrar/{id}")
 	public void deleteSuperhero(@PathVariable Long id) {
 		superheroService.deleteSuperhero(id);
 	}

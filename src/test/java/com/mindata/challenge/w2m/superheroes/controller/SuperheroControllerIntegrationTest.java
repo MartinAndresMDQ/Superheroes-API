@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,10 +51,10 @@ class SuperheroControllerIntegrationTest {
 	@Test
 	void testGetSuperheroById() throws Exception {
 		Long id = 1L;
-		Superhero spiderman = new Superhero(id, "Peter Parker", "Spiderman", null);
+		Superhero spiderman = new Superhero(id, "Peter Parker", "Spiderman", new HashSet<>());
 		Mockito.when(superheroService.getSuperheroById(id)).thenReturn(Optional.of(spiderman));
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/superheroes/{id}", id).contentType(MediaType.APPLICATION_JSON))
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/superheroes/traer/{id}", id).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(spiderman.getId()))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value(spiderman.getName()));
@@ -64,7 +65,7 @@ class SuperheroControllerIntegrationTest {
 	@Test
 	void testGetSuperheroesByName() throws Exception {
 		String name = "Spider";
-		Superhero spiderman = new Superhero(1L, "Peter Parker", "Spiderman", null);
+		Superhero spiderman = new Superhero(1L, "Peter Parker", "Spiderman", new HashSet<>());
 		List<Superhero> spiderHeroes = Collections.singletonList(spiderman);
 		Mockito.when(superheroService.getSuperheroesByName(name)).thenReturn(spiderHeroes);
 
@@ -77,7 +78,7 @@ class SuperheroControllerIntegrationTest {
 
 	@Test
 	void testCreateSuperhero() throws Exception {
-		Superhero spiderman = new Superhero(1L, "Peter Parker", "Spiderman", null);
+		Superhero spiderman = new Superhero(1L, "Peter Parker", "Spiderman", new HashSet<>());
 		Mockito.when(superheroService.createSuperhero(any(Superhero.class))).thenReturn(spiderman);
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/superheroes/crear")
@@ -92,10 +93,10 @@ class SuperheroControllerIntegrationTest {
 	@Test
 	void testUpdateSuperhero() throws Exception {
 		Long id = 1L;
-		Superhero updatedSpiderman = new Superhero(id, "Peter Parker", "Spiderman", null);
+		Superhero updatedSpiderman = new Superhero(id, "Peter Parker", "Spiderman", new HashSet<>());
 		Mockito.when(superheroService.updateSuperhero(eq(id), any(Superhero.class))).thenReturn(updatedSpiderman);
 
-		mockMvc.perform(MockMvcRequestBuilders.put("/api/superheroes/{id}", id)
+		mockMvc.perform(MockMvcRequestBuilders.put("/api/superheroes/actualizar/{id}", id)
 				.content(objectMapper.writeValueAsString(updatedSpiderman)).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(updatedSpiderman.getId()))
@@ -109,7 +110,7 @@ class SuperheroControllerIntegrationTest {
 		Long id = 1L;
 
 		mockMvc.perform(
-				MockMvcRequestBuilders.delete("/api/superheroes/{id}", id).contentType(MediaType.APPLICATION_JSON))
+				MockMvcRequestBuilders.delete("/api/superheroes/borrar/{id}", id).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 
 		Mockito.verify(superheroService, times(1)).deleteSuperhero(id);
