@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 @ServletComponentScan
 @ComponentScan
 @SpringBootApplication
-//@PropertySource("mensajes.properties")
+@PropertySource("mensajes.properties")
 public class SuperheroesApiApplication {
 
 	public static void main(String[] args) {
