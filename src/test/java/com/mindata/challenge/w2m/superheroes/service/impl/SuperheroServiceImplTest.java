@@ -7,8 +7,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +18,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.mindata.challenge.w2m.superheroes.model.Power;
 import com.mindata.challenge.w2m.superheroes.model.Superhero;
+import com.mindata.challenge.w2m.superheroes.repository.PowerRepository;
 import com.mindata.challenge.w2m.superheroes.repository.SuperheroRepository;
 
 @SpringBootTest
@@ -25,15 +30,18 @@ class SuperheroServiceImplTest {
 
 	@Mock
 	private SuperheroRepository superheroRepository;
+	
+    @MockBean
+    private PowerRepository powerRepository;
 
 	@InjectMocks
 	private SuperheroServiceImpl superheroService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-    
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.openMocks(this);
+	}
+
 	@Test
 	void testGetAllSuperheroes() {
 		// Arrange
@@ -79,20 +87,30 @@ class SuperheroServiceImplTest {
 	}
 
 	@Test
-	void testUpdateSuperhero() {
-		// Arrange
-		Long id = 1L;
-		Superhero spiderman = new Superhero(id, "Peter Parker", "Spiderman", null);
-		when(superheroRepository.save(any(Superhero.class))).thenReturn(spiderman);
+	public void testUpdateSuperhero() {
+		// Configuración de datos de prueba
+		Long superheroId = 1L;
+		Superhero existingSuperhero = new Superhero(superheroId, "Superman", "Clark Kent", new HashSet<>());
+		Set<Power> powers = new HashSet<>();
+		powers.add(new Power("Vuela"));
+		existingSuperhero.setPowers(powers);
 
-		// Act
-		Superhero updatedSuperhero = superheroService.updateSuperhero(id, spiderman);
+		Superhero updatedSuperhero = new Superhero(superheroId, "Batman", "Bruce Wayne", new HashSet<>());
+		Set<Power> updatedPowers = new HashSet<>();
+		updatedPowers.add(new Power("Fuerza"));
+		updatedSuperhero.setPowers(updatedPowers);
 
-		// Assert
-		assertEquals(spiderman, updatedSuperhero);
-		verify(superheroRepository).save(spiderman);
+		// Simular el comportamiento del repositorio
+		when(superheroRepository.existsById(superheroId)).thenReturn(true);
+		when(superheroRepository.save(updatedSuperhero)).thenReturn(updatedSuperhero);
+
+		// Ejecutar el método a probar
+		Superhero result = superheroService.updateSuperhero(superheroId, updatedSuperhero);
+
+		// Verificar el resultado
+		assertEquals(updatedSuperhero, result);
 	}
-
+	
 	@Test
 	void testDeleteSuperhero() {
 		// Arrange

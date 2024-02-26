@@ -3,6 +3,9 @@ package com.mindata.challenge.w2m.superheroes.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -16,9 +19,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+//import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -106,15 +110,14 @@ class SuperheroControllerIntegrationTest {
 		Mockito.verify(superheroService, times(1)).updateSuperhero(eq(id), any(Superhero.class));
 	}
 
-	@Test
-	void testDeleteSuperhero() throws Exception {
-		Long id = 1L;
+    @Test
+    void testDeleteSuperheroNotFound() throws Exception {
+        Long superheroId = 999L;
 
-		mockMvc.perform(
-				MockMvcRequestBuilders.delete("/api/superheroes/borrar/{id}", id).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk());
-
-		Mockito.verify(superheroService, times(1)).deleteSuperhero(id);
-	}
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/superheroes/borrar/{id}", superheroId)
+                    .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().string("El superhéroe con ID " + superheroId + " no existe"));
+    }
 
 }

@@ -34,6 +34,10 @@ public class Power {
 	public Power() {
 	}
 
+	public Power(String name) {
+		this.name = name;
+	}
+
 	public Long getId() {
 		return id;
 	}

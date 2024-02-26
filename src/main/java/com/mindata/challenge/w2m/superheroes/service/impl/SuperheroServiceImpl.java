@@ -46,33 +46,39 @@ public class SuperheroServiceImpl implements SuperheroService {
 	@Override
 	@CacheEvict(value = "superheroes", allEntries = true)
 	public Superhero createSuperhero(Superhero superhero) {
-		if(superhero.getPowers() != null) {
-			Set<Power> powers = superhero.getPowers().stream()
-					.map(powerRepository::save)
-					.collect(Collectors.toSet());
+		if (superhero.getPowers() != null) {
+			Set<Power> powers = superhero.getPowers().stream().map(powerRepository::save).collect(Collectors.toSet());
 			superhero.setPowers(powers);
 		}
 		return superheroRepository.save(superhero);
 	}
-
 
 	@Override
 	@CacheEvict(value = "superheroes", allEntries = true)
 	public Superhero updateSuperhero(Long id, Superhero superhero) {
-		superhero.setId(id); // Asegura que el ID del superhéroe sea el mismo que se pasa
-		if(superhero.getPowers() != null) {
-			Set<Power> powers = superhero.getPowers().stream()
-					.map(powerRepository::save)
-					.collect(Collectors.toSet());
-			superhero.setPowers(powers);
-		}
-		return superheroRepository.save(superhero);
-	}
+		Superhero superh = null;
+		if (existsSuperheroById(id)) {
+			superhero.setId(id); // Asegura que el ID del superhéroe sea el mismo que se pasa
+			if (superhero.getPowers() != null) {
+				Set<Power> powers = superhero.getPowers().stream().map(powerRepository::save)
+						.collect(Collectors.toSet());
+				superhero.setPowers(powers);
+			}
+			superh = superheroRepository.save(superhero);
 
+		}
+		return superh;
+
+	}
 
 	@Override
 	@CacheEvict(value = "superheroes", allEntries = true)
 	public void deleteSuperhero(Long id) {
 		superheroRepository.deleteById(id);
+	}
+
+	@Override
+	public boolean existsSuperheroById(Long id) {
+		return superheroRepository.existsById(id);
 	}
 }
